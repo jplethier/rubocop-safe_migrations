@@ -1,0 +1,3 @@
+Naming/FileName:
+ Exclude:
+   - lib/rubocop-safe_migrations.rb
