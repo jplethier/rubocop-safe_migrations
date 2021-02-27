@@ -169,4 +169,40 @@ RSpec.describe RuboCop::Cop::Migration::UpdatingDataInMigration do
       RUBY
     end
   end
+
+  describe "save" do
+    it "registers an offense if called" do
+      expect_offense(<<~RUBY)
+          ModelName.save
+          ^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+        RUBY
+    end
+
+    it 'registers an offense if called inside an iteration list' do
+      expect_offense(<<~RUBY)
+        ModelName.all.each do |model_object|
+          model_object.save
+          ^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+        end
+      RUBY
+    end
+  end
+
+  describe "save!" do
+    it "registers an offense if called" do
+      expect_offense(<<~RUBY)
+          ModelName.save!
+          ^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+        RUBY
+    end
+
+    it 'registers an offense if called inside an iteration list' do
+      expect_offense(<<~RUBY)
+        ModelName.all.each do |model_object|
+          model_object.save!
+          ^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+        end
+      RUBY
+    end
+  end
 end

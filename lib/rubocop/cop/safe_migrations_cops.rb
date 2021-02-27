@@ -8,7 +8,7 @@ module RuboCop
         MSG = 'Updating or manipulating data in migration is unsafe!'.freeze
 
         def_node_matcher :update_all_in_migration?, <<-PATTERN
-          (send _ ${:update_all} _+)
+          (send _ :update_all _+)
         PATTERN
 
         def_node_matcher :delete_all_in_migration?, <<-PATTERN
@@ -23,12 +23,16 @@ module RuboCop
           (send _ :delete _?)
         PATTERN
 
+        def_node_matcher :save_in_migration?, <<-PATTERN
+          (send _ {:save | :save!})
+        PATTERN
+
         def on_send(node)
-          # binding.pry
           update_all_in_migration?(node) { add_offense(node) }
           delete_all_in_migration?(node) { add_offense(node) }
           update_in_migration?(node) { add_offense(node) }
           delete_in_migration?(node) { add_offense(node) }
+          save_in_migration?(node) { add_offense(node) }
         end
       end
     end
