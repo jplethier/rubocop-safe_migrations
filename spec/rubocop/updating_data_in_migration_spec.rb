@@ -2,11 +2,20 @@ RSpec.describe RuboCop::Cop::Migration::UpdatingDataInMigration do
   let(:config) { RuboCop::Config.new }
   subject(:cop) { described_class.new(config) }
 
-  it 'registers an offense if calls update on an active record object' do
-    expect_offense(<<~RUBY)
-      ModelName.update(attribute_name: attribute_value)
-      ^^^^^^^^^^^^^^^^^^^ Updating or populating data in migration is unsafe!
-    RUBY
+  describe "update" do
+    it "registers an offense if calls directly on class passing id" do
+      expect_offense(<<~RUBY)
+        ModelName.update(id, attribute_name: attribute_value)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+      RUBY
+    end
+
+    it 'registers an offense if calls an active record object instance' do
+      expect_offense(<<~RUBY)
+        ModelName.update(attribute_name: attribute_value)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+      RUBY
+    end
   end
 
   it 'registers an offense if calls update on an active record object' do

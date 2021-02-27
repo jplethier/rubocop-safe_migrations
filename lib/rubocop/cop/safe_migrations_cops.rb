@@ -15,13 +15,15 @@ module RuboCop
           (send _ :delete_all _?)
         PATTERN
 
-        # def_node_matcher :update, <<-PATTERN
-        #   ((send const nil? ... ) :update_all)
-        # PATTERN
+        def_node_matcher :update_in_migration?, <<-PATTERN
+          (send _ :update _+)
+        PATTERN
 
         def on_send(node)
+          # binding.pry
           update_all_in_migration?(node) { add_offense(node) }
           delete_all_in_migration?(node) { add_offense(node) }
+          update_in_migration?(node) { add_offense(node) }
         end
       end
     end
