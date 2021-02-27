@@ -19,11 +19,16 @@ module RuboCop
           (send _ :update _+)
         PATTERN
 
+        def_node_matcher :delete_in_migration?, <<-PATTERN
+          (send _ :delete _?)
+        PATTERN
+
         def on_send(node)
           # binding.pry
           update_all_in_migration?(node) { add_offense(node) }
           delete_all_in_migration?(node) { add_offense(node) }
           update_in_migration?(node) { add_offense(node) }
+          delete_in_migration?(node) { add_offense(node) }
         end
       end
     end

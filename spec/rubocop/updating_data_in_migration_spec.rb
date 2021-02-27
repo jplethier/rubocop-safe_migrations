@@ -3,26 +3,19 @@ RSpec.describe RuboCop::Cop::Migration::UpdatingDataInMigration do
   subject(:cop) { described_class.new(config) }
 
   describe "update" do
-    it "registers an offense if calls directly on class passing id" do
+    it "registers an offense if called directly on class passing id" do
       expect_offense(<<~RUBY)
         ModelName.update(id, attribute_name: attribute_value)
         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
       RUBY
     end
 
-    it 'registers an offense if calls an active record object instance' do
+    it 'registers an offense if called an active record object instance' do
       expect_offense(<<~RUBY)
         ModelName.update(attribute_name: attribute_value)
         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
       RUBY
     end
-  end
-
-  it 'registers an offense if calls update on an active record object' do
-    expect_offense(<<~RUBY)
-      ModelName.delete
-      ^^^^^^^^^^^^^^^^^^^ Updating or populating data in migration is unsafe!
-    RUBY
   end
 
   describe "update_all" do
@@ -161,15 +154,19 @@ RSpec.describe RuboCop::Cop::Migration::UpdatingDataInMigration do
     # end
   end
 
-  it 'accepts if column is added without a default value' do
-    expect_no_offenses(<<~RUBY)
-      add_column :table_name, :column_name, :boolean
-    RUBY
-  end
+  describe "delete" do
+    it "registers an offense if called directly on class passing id" do
+      expect_offense(<<~RUBY)
+          ModelName.delete(id)
+          ^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+        RUBY
+    end
 
-  it 'accepts if column is added with a default nil value' do
-    expect_no_offenses(<<~RUBY)
-      add_column :table_name, :column_name, :boolean, default: nil
-    RUBY
+    it 'registers an offense if called an active record object instance' do
+      expect_offense(<<~RUBY)
+        ModelName.delete
+        ^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+      RUBY
+    end
   end
 end
