@@ -16,6 +16,15 @@ RSpec.describe RuboCop::Cop::Migration::UpdatingDataInMigration do
         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
       RUBY
     end
+
+    it 'registers an offense when called on an iteration' do
+      expect_offense(<<~RUBY)
+        ModelName.all.each do |model_object|
+          model_object.update(attribute: "value")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+        end
+      RUBY
+    end
   end
 
   describe "update!" do
@@ -30,6 +39,15 @@ RSpec.describe RuboCop::Cop::Migration::UpdatingDataInMigration do
       expect_offense(<<~RUBY)
         ModelName.update!(attribute_name: attribute_value)
         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+      RUBY
+    end
+
+    it 'registers an offense when called on an iteration' do
+      expect_offense(<<~RUBY)
+        ModelName.all.each do |model_object|
+          model_object.update!(attribute: "value")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+        end
       RUBY
     end
   end
@@ -184,6 +202,15 @@ RSpec.describe RuboCop::Cop::Migration::UpdatingDataInMigration do
         ^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
       RUBY
     end
+
+    it 'registers an offense when called on an iteration' do
+      expect_offense(<<~RUBY)
+        ModelName.all.each do |model_object|
+          model_object.delete
+          ^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+        end
+      RUBY
+    end
   end
 
   describe "destroy" do
@@ -198,6 +225,15 @@ RSpec.describe RuboCop::Cop::Migration::UpdatingDataInMigration do
       expect_offense(<<~RUBY)
         ModelName.destroy
         ^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+      RUBY
+    end
+
+    it 'registers an offense when called on an iteration' do
+      expect_offense(<<~RUBY)
+        ModelName.all.each do |model_object|
+          model_object.destroy
+          ^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+        end
       RUBY
     end
   end
