@@ -1,6 +1,4 @@
 # frozen_string_literal: true
-require "pry"
-
 module RuboCop
   module Cop
     module Migration
