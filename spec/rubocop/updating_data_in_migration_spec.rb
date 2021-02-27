@@ -18,6 +18,22 @@ RSpec.describe RuboCop::Cop::Migration::UpdatingDataInMigration do
     end
   end
 
+  describe "update!" do
+    it "registers an offense if called directly on class passing id" do
+      expect_offense(<<~RUBY)
+        ModelName.update!(id, attribute_name: attribute_value)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+      RUBY
+    end
+
+    it 'registers an offense if called an active record object instance' do
+      expect_offense(<<~RUBY)
+        ModelName.update!(attribute_name: attribute_value)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+      RUBY
+    end
+  end
+
   describe "update_all" do
     context "with hash updates" do
       context "without conditions and options" do
