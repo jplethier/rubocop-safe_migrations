@@ -186,6 +186,22 @@ RSpec.describe RuboCop::Cop::Migration::UpdatingDataInMigration do
     end
   end
 
+  describe "destroy" do
+    it "registers an offense if called directly on class passing id" do
+      expect_offense(<<~RUBY)
+          ModelName.destroy(id)
+          ^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+        RUBY
+    end
+
+    it 'registers an offense if called an active record object instance' do
+      expect_offense(<<~RUBY)
+        ModelName.destroy
+        ^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+      RUBY
+    end
+  end
+
   describe "save" do
     it "registers an offense if called" do
       expect_offense(<<~RUBY)

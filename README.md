@@ -44,7 +44,6 @@ Everyone interacting in the Rubocop::SafeMigrations project's codebases, issue t
 ## TODO
 
 ### For Updating data in migration rule
-- [ ] Adds check to active record destroy method called on migration
 - [ ] Adds check to active record destroy_all method called on migration
 - [ ] Adds check to active record update_attribute method called on migration
 - [ ] Adds check to active record update_attributes method called on migration

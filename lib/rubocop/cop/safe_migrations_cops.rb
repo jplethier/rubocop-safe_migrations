@@ -12,7 +12,7 @@ module RuboCop
         PATTERN
 
         def_node_matcher :delete_in_migration?, <<-PATTERN
-          (send _ {:delete | :delete_all} _?)
+          (send _ {:delete | :delete_all | :destroy} _?)
         PATTERN
 
         def_node_matcher :save_in_migration?, <<-PATTERN
