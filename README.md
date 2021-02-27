@@ -64,3 +64,4 @@ Everyone interacting in the Rubocop::SafeMigrations project's codebases, issue t
 
 ### For new rules
 - [ ] Creates a rule to check if a column is being added with a default value
+- [ ] Creates a rule to create indexes safier
