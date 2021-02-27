@@ -170,22 +170,24 @@ RSpec.describe RuboCop::Cop::Migration::UpdatingDataInMigration do
         RUBY
       end
     end
+  end
 
-    # context "with conditions" do
-    #   it 'registers an offense if calls delete_all directly on model' do
-    #     expect_offense(<<~RUBY)
-    #       ModelName.delete_all(attribute: "value")
-    #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
-    #     RUBY
-    #   end
+  describe "destroy_all" do
+    context "without conditions" do
+      it 'registers an offense if called directly on model' do
+        expect_offense(<<~RUBY)
+          ModelName.destroy_all
+          ^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+        RUBY
+      end
 
-    #   it 'registers an offense if calls delete_all on an active record relation object' do
-    #     expect_offense(<<~RUBY)
-    #       ModelName.where(condition: true).delete_all(attribute: "value")
-    #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
-    #     RUBY
-    #   end
-    # end
+      it 'registers an offense if called on an active record relation object' do
+        expect_offense(<<~RUBY)
+          ModelName.where(condition: true).destroy_all
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+        RUBY
+      end
+    end
   end
 
   describe "delete" do

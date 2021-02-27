@@ -44,7 +44,6 @@ Everyone interacting in the Rubocop::SafeMigrations project's codebases, issue t
 ## TODO
 
 ### For Updating data in migration rule
-- [ ] Adds check to active record destroy_all method called on migration
 - [ ] Adds check to active record update_attribute method called on migration
 - [ ] Adds check to active record update_attributes method called on migration
 - [ ] Adds check to active record update_column method called on migration
@@ -57,6 +56,7 @@ Everyone interacting in the Rubocop::SafeMigrations project's codebases, issue t
 - [ ] Adds check to string sql execution with updates, inserts or deletions
 - [ ] Position offense message on the method being called, not in the end of line
 - [ ] Adds option to be able to whitelist some methods
+- [ ] Adds option to be able to add custom methods to blacklist
 
 ### For new rules
 - [ ] Creates a rule to check if a column is being added with a default value
