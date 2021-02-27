@@ -42,3 +42,20 @@ The gem is available as open source under the terms of the [MIT License](https:/
 ## Code of Conduct
 
 Everyone interacting in the Rubocop::SafeMigrations project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/rubocop-safe_migrations/blob/master/CODE_OF_CONDUCT.md).
+
+## TODO
+
+- [ ] Adds check to active record save method called on migration
+- [ ] Adds check to active record destroy method called on migration
+- [ ] Adds check to active record destroy_all method called on migration
+- [ ] Adds check to active record update_attribute method called on migration
+- [ ] Adds check to active record update_attributes method called on migration
+- [ ] Adds check to active record update_column method called on migration
+- [ ] Adds check to active record update_counters method called on migration
+- [ ] Adds check to active record toggle method called on migration
+- [ ] Adds check to active record create_or_update method called on migration
+- [ ] Adds check to active record decrement method called on migration
+- [ ] Adds check to active record increment method called on migration
+- [ ] Adds check to active record find_or_create method called on migration
+- [ ] Position offense message on the method being called, not in the end of line
+- [ ] Adds option to be able to whitelist some methods
