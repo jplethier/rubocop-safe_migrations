@@ -32,6 +32,16 @@ This is more importante to be avoided if you have your deploy pipeline configure
 
 By default, all active record methods that generate update, create or delete queries are checked by the cop, and if used on migrations an offense will be generated.
 
+To turn some method available to be used on migration, just add it to AllowedMethods config on rubocop.yml, for example:
+
+```yaml
+Migration/UpdatingDataInMigration:
+  AllowedMethods:
+    - toggle
+```
+
+Using the configuration above, the cop will not add an offense when toggle method is used on migrations.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
@@ -55,13 +65,13 @@ Everyone interacting in the Rubocop::SafeMigrations project's codebases, issue t
 
 ### For Updating data in migration rule
 - [ ] Adds check to active record update_counters method called on migration
+- [ ] Adds check to active record create method called on migration
 - [ ] Adds check to active record create_or_update method called on migration
 - [ ] Adds check to active record decrement method called on migration
 - [ ] Adds check to active record increment method called on migration
 - [ ] Adds check to active record find_or_create method called on migration
 - [ ] Adds check to string sql execution with updates, inserts or deletions
 - [ ] Position offense message on the method being called, not in the end of line
-- [ ] Adds option to be able to whitelist some methods
 - [ ] Adds option to be able to add custom methods to blacklist
 
 ### For new rules
