@@ -7,7 +7,7 @@ Rubocop cops to help to ensure that migrations are safier to run in production e
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rubocop-safe_migrations', require: false
+gem "rubocop-safe_migrations", require: false
 ```
 
 And then execute:
