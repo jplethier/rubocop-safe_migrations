@@ -20,7 +20,14 @@ Or install it yourself as:
 
 ## Usage
 
-After installed, this will automatically add new migration cops to be checked when running rubocop on the project. Be sure that you are not excluding migration folder on your rubocop config.
+After installed, you have to tell rubocop to require this new cops. For doing this, add this config to your .rubocop.yml file:
+
+```yaml
+require:
+  - rubocop-safe_migrations
+```
+
+Be sure that you are not excluding migrate files for all cops either.
 
 The cops that will be checked are:
 

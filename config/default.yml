@@ -1,1 +1,4 @@
-# Write it!
+Migration/UpdatingDataInMigration:
+  Enabled: true
+  Include:
+    - "db/migrate/*"
