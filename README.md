@@ -20,7 +20,17 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+After installed, this will automatically add new migration cops to be checked when running rubocop on the project. Be sure that you are not excluding migration folder on your rubocop config.
+
+The cops that will be checked are:
+
+### Updating data in migration
+
+This cop will check if active record migrations have any method that runs updates, creations or deletions on your database.
+
+This is more importante to be avoided if you have your deploy pipeline configured to run database migrations on deploy or build time, since having data being manipulating or updating on deploy can cause unexpected downtime to your application database.
+
+By default, all active record methods that generate update, create or delete queries are checked by the cop, and if used on migrations an offense will be generated.
 
 ## Development
 
@@ -44,11 +54,7 @@ Everyone interacting in the Rubocop::SafeMigrations project's codebases, issue t
 ## TODO
 
 ### For Updating data in migration rule
-- [ ] Adds check to active record update_attribute method called on migration
-- [ ] Adds check to active record update_attributes method called on migration
-- [ ] Adds check to active record update_column method called on migration
 - [ ] Adds check to active record update_counters method called on migration
-- [ ] Adds check to active record toggle method called on migration
 - [ ] Adds check to active record create_or_update method called on migration
 - [ ] Adds check to active record decrement method called on migration
 - [ ] Adds check to active record increment method called on migration
