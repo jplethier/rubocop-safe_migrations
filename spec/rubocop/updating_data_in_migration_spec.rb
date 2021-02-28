@@ -154,6 +154,96 @@ RSpec.describe RuboCop::Cop::Migration::UpdatingDataInMigration do
     end
   end
 
+  describe "update_attribute" do
+    it 'registers an offense if called an active record object instance' do
+      expect_offense(<<~RUBY)
+        model_object.update_attribute(:attribute_name, "value")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+      RUBY
+    end
+
+    it 'registers an offense when called on an iteration' do
+      expect_offense(<<~RUBY)
+        ModelName.all.each do |model_object|
+          model_object.update_attribute(:attribute_name, "value")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+        end
+      RUBY
+    end
+  end
+
+  describe "update_column" do
+    it 'registers an offense if called an active record object instance' do
+      expect_offense(<<~RUBY)
+        model_object.update_column(:attribute_name, "value")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+      RUBY
+    end
+
+    it 'registers an offense when called on an iteration' do
+      expect_offense(<<~RUBY)
+        ModelName.all.each do |model_object|
+          model_object.update_column(:attribute_name, "value")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+        end
+      RUBY
+    end
+  end
+
+  describe "update_columns" do
+    it 'registers an offense if called an active record object instance' do
+      expect_offense(<<~RUBY)
+        model_object.update_columns(attribute_name: "value")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+      RUBY
+    end
+
+    it 'registers an offense when called on an iteration' do
+      expect_offense(<<~RUBY)
+        ModelName.all.each do |model_object|
+          model_object.update_columns(attribute_name: "value")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+        end
+      RUBY
+    end
+  end
+
+  describe "toggle" do
+    it 'registers an offense if called an active record object instance' do
+      expect_offense(<<~RUBY)
+        model_object.toggle(:attribute_name)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+      RUBY
+    end
+
+    it 'registers an offense when called on an iteration' do
+      expect_offense(<<~RUBY)
+        ModelName.all.each do |model_object|
+          model_object.toggle(:attribute_name)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+        end
+      RUBY
+    end
+  end
+
+  describe "toggle!" do
+    it 'registers an offense if called an active record object instance' do
+      expect_offense(<<~RUBY)
+        model_object.toggle!(:attribute_name)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+      RUBY
+    end
+
+    it 'registers an offense when called on an iteration' do
+      expect_offense(<<~RUBY)
+        ModelName.all.each do |model_object|
+          model_object.toggle!(:attribute_name)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Updating or manipulating data in migration is unsafe!
+        end
+      RUBY
+    end
+  end
+
   describe "delete_all" do
     context "without conditions" do
       it 'registers an offense if calls delete_all directly on model' do
