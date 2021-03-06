@@ -36,6 +36,18 @@ module RuboCop
           ]
         end
       end
+
+      class RenamingTableInMigration < RuboCop::Cop::Cop
+        MSG = "Renaming table on migration should be avoided".freeze
+
+        def_node_matcher :renaming_table?, <<-PATTERN
+          (send nil? :rename_table ...)
+        PATTERN
+
+        def on_send(node)
+          renaming_table?(node) { add_offense(node) }
+        end
+      end
     end
   end
 end
