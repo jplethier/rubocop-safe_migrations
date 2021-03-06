@@ -2,3 +2,8 @@ Migration/UpdatingDataInMigration:
   Enabled: true
   Include:
     - "db/migrate/*"
+
+Migration/RenamingTableInMigration:
+  Enabled: true
+  Include:
+    - "db/migrate/*"
