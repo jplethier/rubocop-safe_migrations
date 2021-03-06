@@ -49,6 +49,19 @@ Migration/UpdatingDataInMigration:
 
 Using the configuration above, the cop will not add an offense when toggle method is used on migrations.
 
+### Renaming table in migration
+
+This cop will check if you have a migration that are renaming some table already created on your database.
+
+This should be avoided because your database could had ran some trigger after creation that will not be runned after renamed. Besides that, it can led to an inconsistent scenario where you have indexes and foreign_keys with old table name, and if a DBA or a developer look those in database, it can be confuse and led to a misunderstand.
+
+This cop has no options, the only thing that can be done is disabled it on rubocop.yml:
+
+```yaml
+Migration/RenamingTableInMigration:
+  Enabled: false
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
@@ -70,7 +83,7 @@ Everyone interacting in the Rubocop::SafeMigrations project's codebases, issue t
 
 ## TODO
 
-### For Updating data in migration rule
+### For Updating data in migration cop
 - [ ] Adds check to active record update_counters method called on migration
 - [ ] Adds check to active record create method called on migration
 - [ ] Adds check to active record create_or_update method called on migration
@@ -81,8 +94,11 @@ Everyone interacting in the Rubocop::SafeMigrations project's codebases, issue t
 - [ ] Position offense message on the method being called, not in the end of line
 - [ ] Adds option to be able to add custom methods to blacklist
 
+### For renaming table in migration cop
+- [ ] Adds a check to string sql execution renaming table
+- [ ] [Maybe] Adds a possibility to renaming table if all indexes and foreign keys are renamed as well
+
 ### For new rules
 - [ ] Creates a rule to check if a column is being added with a default value
 - [ ] Creates a rule to create indexes safier
-- [ ] Creates a rule to avoid renaming tables
 
