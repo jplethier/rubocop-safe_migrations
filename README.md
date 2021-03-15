@@ -1,6 +1,6 @@
 # Rubocop::SafeMigrations
 
-Rubocop cops to help to ensure that migrations are safier to run in production environments without causing downtime and issues on database
+Rubocop cops to help ensure that migrations are safer to run in production environments without causing downtime and database issues.
 
 ## Installation
 
@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-After installed, you have to tell rubocop to require this new cops. For doing this, add this config to your .rubocop.yml file:
+After installed, you have to tell rubocop to require these new cops. For doing this, add this config to your .rubocop.yml file:
 
 ```yaml
 require:
@@ -31,11 +31,15 @@ Be sure that you are not excluding migrate files for all cops either.
 
 The cops that will be checked are:
 
+- [`Migration/UpdatingDataInMigration`](#updating-data-in-migration)
+- [`Migration/RenamingTableInMigration`](#renaming-table-in-migration)
+
 ### Updating data in migration
 
 This cop will check if active record migrations have any method that runs updates, creations or deletions on your database.
 
-This is more importante to be avoided if you have your deploy pipeline configured to run database migrations on deploy or build time, since having data being manipulating or updating on deploy can cause unexpected downtime to your application database.
+This is important to be avoided if you have your deploy pipeline configured to run database migrations on deploy or build time.
+Having data being manipulated or updated on deploy can cause unexpected downtime to your application database.
 
 By default, all active record methods that generate update, create or delete queries are checked by the cop, and if used on migrations an offense will be generated.
 
@@ -47,13 +51,15 @@ Migration/UpdatingDataInMigration:
     - toggle
 ```
 
-Using the configuration above, the cop will not add an offense when toggle method is used on migrations.
+Using the configuration above, the cop will not add an offense when the `toggle` method is used on migrations.
 
 ### Renaming table in migration
 
-This cop will check if you have a migration that are renaming some table already created on your database.
+This cop will check if you have migrations that are renaming tables already created on your database.
 
-This should be avoided because your database could had ran some trigger after creation that will not be runned after renamed. Besides that, it can led to an inconsistent scenario where you have indexes and foreign_keys with old table name, and if a DBA or a developer look those in database, it can be confuse and led to a misunderstand.
+This should be avoided because your tables can have triggers configured, that will stop working after the table gets renamed.
+Besides that, it can lead to an inconsistent scenario where you will keep indexes and foreign_keys with the old table name,
+and if a DBA or a developer see those in database, it can be confusing and create misunderstandings.
 
 This cop has no options, the only thing that can be done is disabled it on rubocop.yml:
 
@@ -70,7 +76,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rubocop-safe_migrations. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/rubocop-safe_migrations/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/jplethier/rubocop-safe_migrations. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/jplethier/rubocop-safe_migrations/blob/master/CODE_OF_CONDUCT.md).
 
 
 ## License
@@ -79,7 +85,7 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Rubocop::SafeMigrations project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/rubocop-safe_migrations/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Rubocop::SafeMigrations project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/jplethier/rubocop-safe_migrations/blob/master/CODE_OF_CONDUCT.md).
 
 ## TODO
 
